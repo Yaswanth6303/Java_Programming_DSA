@@ -1,6 +1,9 @@
 package faq_medium.solutions;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RotateMatrix_5 {
     public static void printMatrix(int [][] matrix) {
@@ -72,5 +75,37 @@ public class RotateMatrix_5 {
                                    {7, 8, 9}};
         rotateMatrixOptimal(matrix_optimal);
         printMatrix(matrix_optimal);
+    }
+
+    public static class ThreeSum_7 {
+        public static List<List<Integer>> threeSumBrute(int [] nums) {
+            int n = nums.length;
+
+            Set<List<Integer>> tripletSet = new HashSet<>();
+
+            for (int i = 0; i < n - 2; i++) {
+                for (int j = i + 1; j < n - 1; j++) {
+                    for (int k = j + 1; k < n; k++) {
+                        if (nums[i] + nums[j] + nums[k] == 0) {
+                            List<Integer> threeSumValues = new ArrayList<>();
+                            threeSumValues.add(nums[i]);
+                            threeSumValues.add(nums[j]);
+                            threeSumValues.add(nums[k]);
+                            tripletSet.add(threeSumValues);
+                        }
+                    }
+                }
+            }
+
+            List<List<Integer>> tripletList = new ArrayList<>(tripletSet);
+
+            return tripletList;
+        }
+        public static void main(String[] args) {
+            int [] nums = {-1, 0, 1, 2, -1, -4};
+            List<List<Integer>> tripletSetBrute = threeSumBrute(nums);
+
+
+        }
     }
 }

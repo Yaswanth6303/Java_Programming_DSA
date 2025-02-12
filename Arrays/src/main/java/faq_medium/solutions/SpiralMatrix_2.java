@@ -1,6 +1,7 @@
 package faq_medium.solutions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SpiralMatrix_2 {
@@ -88,5 +89,79 @@ public class SpiralMatrix_2 {
 
         System.out.println("\nSpiral Order:");
         printList(spiralOrderMatrix);
+    }
+
+    public static class SortArray_9 {
+        public static void printMatrix(int [] nums) {
+            for (int i = 0; i < nums.length; i++) {
+                System.out.print(nums[i] + " ");
+            }
+            System.out.println();
+        }
+        public static void sortZeroOneTwoBrute(int [] nums) {
+            Arrays.sort(nums);
+        }
+        public static void sortZeroOneTwoBetter(int [] nums) {
+            int count_0 = 0;
+            int count_1 = 0;
+            int count_2 = 0;
+
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] == 0) {
+                    count_0++;
+                } else if (nums[i] == 1) {
+                    count_1++;
+                } else {
+                    count_2++;
+                }
+            }
+
+            for (int i = 0; i < count_0; i++) {
+                nums[i] = 0;
+            }
+
+            for (int i = count_0; i < count_0 + count_1; i++) {
+                nums[i] = 1;
+            }
+
+            for (int i = count_0 + count_1; i < count_0 + count_1 + count_2; i++) {
+                nums[i] = 2;
+            }
+        }
+
+        public static void sortZeroOneTwoOptimal(int [] nums) {
+            int n = nums.length;
+            int low = 0;
+            int mid = 0;
+            int high = n - 1;
+
+            while(mid <= high) {
+                if(nums[mid] == 0) {
+                    int temp = nums[low];
+                    nums[low] = nums[mid];
+                    nums[mid] = temp;
+                    low++;
+                    mid++;
+                } else if(nums[mid] == 1) {
+                    mid++;
+                } else {
+                    int temp = nums[mid];
+                    nums[mid] = nums[high];
+                    nums[high] = temp;
+                    high--;
+                }
+            }
+        }
+        public static void main(String[] args) {
+            int[] nums = {0, 2, 1, 2, 0, 1};
+            sortZeroOneTwoBrute(nums);
+            printMatrix(nums);
+            System.out.println();
+            sortZeroOneTwoBetter(nums);
+            printMatrix(nums);
+            System.out.println();
+            sortZeroOneTwoOptimal(nums);
+            printMatrix(nums);
+        }
     }
 }
