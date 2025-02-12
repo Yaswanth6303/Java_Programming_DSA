@@ -1,10 +1,6 @@
 package faq_medium.solutions;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Collections;
+import java.util.*;
 
 public class ThreeSum_7 {
     public static void printMatrix(List<List<Integer>> matrix) {
@@ -41,10 +37,81 @@ public class ThreeSum_7 {
 
         return tripletList;
     }
+    public static List<List<Integer>> threeSumBetter(int [] nums) {
+        int n = nums.length;
+
+        Set<List<Integer>> tripletSet = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            Set<Integer> hashset = new HashSet<>();
+            for (int j = i + 1; j < n; j++) {
+                int thirdValue = -(nums[i] + nums[j]);
+                if (hashset.contains(thirdValue)) {
+                    List<Integer> tripletList = new ArrayList<>();
+                    tripletList.add(nums[i]);
+                    tripletList.add(nums[j]);
+                    tripletList.add(thirdValue);
+
+                    Collections.sort(tripletList);
+                    tripletSet.add(tripletList);
+                }
+                hashset.add(nums[j]);
+            }
+        }
+
+        List<List<Integer>> tripletList = new ArrayList<>(tripletSet);
+
+        return tripletList;
+    }
+    public static List<List<Integer>> threeSumOptimal(int[] nums) {
+        int n = nums.length;
+        List<List<Integer>> tripletSet = new ArrayList<>();
+
+        Arrays.sort(nums);
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue; // Skip duplicate elements for the first element
+            }
+
+            int j = i + 1;
+            int k = n - 1;
+
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum > 0) {
+                    k--; // Decrease the sum
+                } else if (sum < 0) {
+                    j++; // Increase the sum
+                } else {
+                    List<Integer> tripletList = Arrays.asList(nums[i], nums[j], nums[k]);
+                    tripletSet.add(tripletList);
+                    j++;
+                    k--;
+
+                    // Skip duplicates for the second and third elements
+                    while (j < k && nums[j] == nums[j - 1]) {
+                        j++;
+                    }
+                    while (j < k && nums[k] == nums[k + 1]) {
+                        k--;
+                    }
+                }
+            }
+        }
+
+        return tripletSet;
+    }
+
     public static void main(String[] args) {
         int[] nums = {2, -2, 0, 3, -3, 5};
 
         List<List<Integer>> tripletSetBrute = threeSumBrute(nums);
         printMatrix(tripletSetBrute);
+        System.out.println();
+        List<List<Integer>> tripletSetBetter = threeSumBetter(nums);
+        printMatrix(tripletSetBetter);
+        System.out.println();
+        List<List<Integer>> tripletSetOptimal = threeSumOptimal(nums);
+        printMatrix(tripletSetOptimal);
     }
 }
